@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import react,{useEffect,useState} from 'react';
+import {useAuthState} from "react-firebase-hooks/auth"
+import {auth,db} from "./services/firebase"
+import Login from "./components/Login/index"
+import Loading from './components/Loading/index'
+import Chat from './components/Chats/index';
+import SideBar from './components/Sidebar';
+import * as C from "./styles/app"
 
-function App() {
+const App = () => {
+  const [user, loading] = useAuthState(auth);
+  const [userChat, setUserChat] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      db.collection("users").doc(user.uid).set({
+        email: user.email,
+        photoURL: user.photoURL,
+      });
+    }
+  }, [user]);
+
+  if (loading) return <Loading />;
+
+  if (!user) return <Login />;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <C.Container>
+      <SideBar setUserChat={setUserChat} userChat={userChat} />
+      <Chat userChat={userChat} />
+    </C.Container>
   );
-}
+};
 
 export default App;
