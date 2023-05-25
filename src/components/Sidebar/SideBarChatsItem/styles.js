@@ -18,6 +18,14 @@ export const Container = styled.div `
         margin-right: 10px;
         min-width: fit-content;
     }
+    svg{
+        width: 30px;
+        height : 30px;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin-right: 10px;
+        min-width: fit-content;
+    }
 
     &:active{
         background-color: #f0f2f5;

@@ -5,5 +5,6 @@ export const Container = styled.div `
     max-width:415px;
     height:100vh;
     border-right: 1px solid #ddd;
+    overflow: hidden;
 `
 
